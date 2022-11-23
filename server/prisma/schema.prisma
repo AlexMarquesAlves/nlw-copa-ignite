@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -18,8 +21,8 @@ model Pool {
   createdAt DateTime @default(now())
   ownerId   String?
 
-  participants Participant[]
   owner        User?         @relation(fields: [ownerId], references: [id])
+  participants Participant[]
 }
 
 model Participant {
@@ -28,7 +31,7 @@ model Participant {
   poolId String
 
   guesses Guess[]
-  user    User    @relation(fields: [userId], references: [id])
+  user    User?   @relation(fields: [userId], references: [id])
   pool    Pool    @relation(fields: [poolId], references: [id])
 
   @@unique([userId, poolId])
@@ -42,13 +45,12 @@ model User {
   createdAt DateTime @default(now())
 
   participatingAt Participant[]
-  ownPools        Pool[]
+  ownPool         Pool[]
 }
 
 model Game {
-  id   String   @id @default(cuid())
-  date DateTime
-
+  id                    String   @id @default(cuid())
+  date                  DateTime
   firstTeamCountryCode  String
   secondTeamCountryCode String
 
@@ -56,8 +58,7 @@ model Game {
 }
 
 model Guess {
-  id String @id @default(cuid())
-
+  id               String   @id @default(cuid())
   firstTeamPoints  Int
   secondTeamPoints Int
   createdAt        DateTime @default(now())
