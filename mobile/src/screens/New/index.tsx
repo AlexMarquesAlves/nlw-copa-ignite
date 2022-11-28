@@ -11,7 +11,7 @@ export function New() {
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
-  async function handlePollCreate(params: any) {
+  async function handlePollCreate() {
     if (!title.trim()) {
       return toast.show({
         title: "Informe o nome para o vosso bolão",
@@ -33,7 +33,7 @@ export function New() {
 
       setTitle("");
     } catch (error) {
-      console.error(error);
+      console.log(error);
 
       toast.show({
         title: "Não foi possível criar o vosso bolão",
